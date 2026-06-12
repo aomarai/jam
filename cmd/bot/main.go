@@ -28,7 +28,7 @@ func main() {
 	slog.Info("Successfully loaded configuration.")
 	slog.Debug("Loaded configuration", "config", cfg)
 
-	c := chain.New(cfg.MMarkovStateSize)
+	c := chain.New(cfg.MarkovStateSize)
 	if err := c.Load(cfg.ModelPath); err != nil {
 		slog.Warn("No existing model found. Creating new model...")
 		if cfg.SeedPath != "" {

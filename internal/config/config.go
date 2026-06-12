@@ -11,7 +11,7 @@ type Config struct {
 	TwitchOAuthToken    string
 	TwitchBotUsername   string
 	TwitchTargetChannel string
-	MMarkovStateSize    int
+	MarkovStateSize     int
 	PostInterval        time.Duration
 	SaveInterval        time.Duration
 	ModelPath           string
@@ -47,7 +47,7 @@ func Load() (*Config, error) {
 	return &Config{
 		TwitchBotUsername:   getEnv("TWITCH_BOT_USERNAME", ""),
 		TwitchTargetChannel: getEnv("TWITCH_TARGET_CHANNEL", ""),
-		MMarkovStateSize:    stateSize,
+		MarkovStateSize:     stateSize,
 		PostInterval:        postInterval,
 		SaveInterval:        saveInterval,
 		ModelPath:           getEnv("MODEL_PATH", "model.json"),

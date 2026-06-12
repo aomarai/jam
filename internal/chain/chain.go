@@ -69,9 +69,8 @@ func (c *Chain) Generate() string {
 		slog.Debug("Starting generation with key", "key", current)
 
 		words := strings.Fields(current)
-		const maxWords = 30
 
-		for len(words) < maxWords {
+		for len(words) < 30 {
 			next, ok := c.Data[current]
 			if !ok || len(next) == 0 {
 				break
