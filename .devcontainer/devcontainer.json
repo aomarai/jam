@@ -1,0 +1,24 @@
+{
+	"name": "Go & Typescript",
+	"image": "ghcr.io/prulloac/base:bookworm",
+	"remoteUser": "root",
+
+	// 👇 Features to add to the Dev Container. More info: https://containers.dev/implementors/features.
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
+		"ghcr.io/prulloac/devcontainer-features/bun:1": {},
+		"ghcr.io/devcontainers/features/node:1": {},
+		"ghcr.io/devcontainers/features/go:1": {
+			"version": "latest",
+			"golangciLintVersion": "latest"
+		},
+		"ghcr.io/szkiba/devcontainer-features/govulncheck:1": {},
+		"ghcr.io/ksachdeva/devcontainer-features/natscli:1": {}
+	}
+
+	// 👇 Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// 👇 Configure tool-specific properties.
+	// "customizations": {},
+}
