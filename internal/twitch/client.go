@@ -2,6 +2,7 @@ package twitch
 
 import (
 	"log/slog"
+	"strings"
 
 	"github.com/aomarai/jam/internal/chain"
 	"github.com/aomarai/jam/internal/config"
@@ -52,8 +53,12 @@ func (c *Client) Post() {
 		slog.Info("Generate returned empty, skipping post")
 		return
 	}
+	if strings.ToLower(c.cfg.Environment) != "production" {
+		slog.Info("Skipping message send due to non-production environment", "environment", c.cfg.Environment, "message", msg)
+		return
+	}
 	c.client.Say(c.TwitchTargetChannel(), msg)
-	slog.Info("Posted message", "message", msg)
+	slog.Info("Posted message", "message", msg, "channel", c.TwitchTargetChannel())
 }
 
 func (c *Client) TwitchTargetChannel() string {

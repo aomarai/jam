@@ -16,6 +16,7 @@ type Config struct {
 	SaveInterval        time.Duration
 	ModelPath           string
 	SeedPath            string
+	Environment         string
 }
 
 // getEnv returns the value of an environment variable or a fallback if it is not set.
@@ -52,5 +53,6 @@ func Load() (*Config, error) {
 		SaveInterval:        saveInterval,
 		ModelPath:           getEnv("MODEL_PATH", "model.json"),
 		SeedPath:            getEnv("SEED_PATH", "seed.txt"),
+		Environment:         getEnv("ENVIRONMENT", "production"),
 	}, nil
 }
