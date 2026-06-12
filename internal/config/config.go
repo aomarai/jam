@@ -46,6 +46,7 @@ func Load() (*Config, error) {
 	}
 
 	return &Config{
+		TwitchOAuthToken:    getEnv("TWITCH_OAUTH_TOKEN", ""),
 		TwitchBotUsername:   getEnv("TWITCH_BOT_USERNAME", ""),
 		TwitchTargetChannel: getEnv("TWITCH_TARGET_CHANNEL", ""),
 		MarkovStateSize:     stateSize,
