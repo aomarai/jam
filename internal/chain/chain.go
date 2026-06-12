@@ -37,7 +37,7 @@ func (c *Chain) Add(message string) {
 
 	// StateSize will determine how "smart" the bot is
 	for i := 0; i <= len(words)-c.StateSize; i++ {
-		key := strings.Join(words[i:i+c.StateSize], "")
+		key := strings.Join(words[i:i+c.StateSize], " ")
 		next := ""
 		if i+c.StateSize < len(words) {
 			next = words[i+c.StateSize]
@@ -58,19 +58,29 @@ func (c *Chain) Generate() string {
 		return ""
 	}
 
+	// only use keys that have non-terminal continuations as start candidates
+	var startKeys []string
+	for k, v := range c.Data {
+		for _, next := range v {
+			if next != "" {
+				startKeys = append(startKeys, k)
+				break
+			}
+		}
+	}
+
+	if len(startKeys) == 0 {
+		return ""
+	}
+
 	const maxAttempts = 10
 	for range maxAttempts {
-		// Pick random starting key
-		keys := make([]string, 0, len(c.Data))
-		for k := range c.Data {
-			keys = append(keys, k)
-		}
-		current := keys[rand.Intn(len(keys))]
+		current := startKeys[rand.Intn(len(startKeys))]
+		words := strings.Fields(current)
 		slog.Debug("Starting generation with key", "key", current)
 
-		words := strings.Fields(current)
-
-		for len(words) < 30 {
+		const maxWords = 30
+		for len(words) < maxWords {
 			next, ok := c.Data[current]
 			if !ok || len(next) == 0 {
 				break
@@ -80,13 +90,15 @@ func (c *Chain) Generate() string {
 				break
 			}
 			words = append(words, nextWord)
-
-			// Slide window
 			keyWords := append(strings.Fields(current)[1:], nextWord)
 			current = strings.Join(keyWords, " ")
 		}
+
+		if len(words) >= c.StateSize+1 {
+			return strings.Join(words, " ")
+		}
 	}
-	slog.Debug("Unlocking read lock")
+	slog.Debug("Unlocking read lock after generation")
 	return ""
 }
 
