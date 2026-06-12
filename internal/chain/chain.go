@@ -66,6 +66,7 @@ func (c *Chain) Generate() string {
 			keys = append(keys, k)
 		}
 		current := keys[rand.Intn(len(keys))]
+		slog.Debug("Starting generation with key", "key", current)
 
 		words := strings.Fields(current)
 		const maxWords = 30
